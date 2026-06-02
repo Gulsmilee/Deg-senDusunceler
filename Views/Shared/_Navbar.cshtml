@@ -1,0 +1,77 @@
+@* Oturumdan kullanıcı bilgilerini al *@
+@{
+    var userName = Context.Session.GetString("UserFullName");
+    var isLoggedIn = !string.IsNullOrEmpty(userName);
+}
+
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+
+        <a class="navbar-brand" asp-controller="Memory" asp-action="Index">
+            <!-- Satürn SVG logosu — imza rengi #a78bfa -->
+            <svg width="22" height="22" viewBox="0 0 26 26" fill="none" style="margin-right:8px;vertical-align:middle">
+                <ellipse cx="13" cy="13" rx="6" ry="6" fill="#a78bfa" opacity="0.95"/>
+                <ellipse cx="13" cy="13" rx="11.5" ry="4" stroke="#c4b5fd" stroke-width="1.3" fill="none" opacity="0.6"/>
+            </svg>
+            Değişen Düşünceler
+        </a>
+
+        <!-- Mobilde hamburger butonu -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+
+            @if (isLoggedIn)
+            {
+                <!-- Giriş yapılmışsa bu menü görünür -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Memory" asp-action="Index">
+                            🌌 Evren
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Memory" asp-action="MyCapsule">
+                            🗂 Kapsülüm
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Memory" asp-action="Create">
+                            ✦ Yeni Anı
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Sağ taraf: kullanıcı adı ve çıkış -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Memory" asp-action="Profile">
+                            <!-- ♄ Satürn sembolü kullanıcı adının yanında -->
+                            ♄ @userName
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-btn-logout" asp-controller="Account" asp-action="Logout">
+                            Çıkış
+                        </a>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <!-- Giriş yapılmamışsa sadece bu iki buton görünür -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Login">Giriş Yap</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-btn-register" asp-controller="Account" asp-action="Register">Kayıt Ol</a>
+                    </li>
+                </ul>
+            }
+
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,68 @@
+@{
+    ViewData["Title"] = "Giriş Yap";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="auth-card">
+
+        <!-- Satürn logosu ve başlık -->
+        <div class="text-center mb-4">
+            <svg width="48" height="48" viewBox="0 0 26 26" fill="none">
+                <ellipse cx="13" cy="13" rx="6" ry="6" fill="#a78bfa" opacity="0.95"/>
+                <ellipse cx="13" cy="13" rx="11.5" ry="4" stroke="#c4b5fd"
+                         stroke-width="1.3" fill="none" opacity="0.6"/>
+            </svg>
+            <h1 class="auth-title mt-2">Tekrar hoş geldin</h1>
+            <p class="auth-sub">Düşüncelerine devam et ♄</p>
+        </div>
+
+        <!-- Hata mesajı -->
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert-danger-saturn mb-3">@ViewBag.Error</div>
+        }
+
+        <!-- Giriş formu -->
+        <form method="post" asp-action="Login">
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       placeholder="ornek@mail.com"
+                       required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Şifre</label>
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       placeholder="••••••••"
+                       required />
+            </div>
+
+            <!-- Şifremi unuttum bağlantısı -->
+            <div class="mb-3 text-end">
+                <a asp-action="ResetPassword"
+                   style="color:var(--text-muted);font-size:12px;text-decoration:none;">
+                    Şifremi unuttum
+                </a>
+            </div>
+
+            <button type="submit" class="btn-saturn w-100">Giriş Yap</button>
+        </form>
+
+        <!-- Kayıt ol yönlendirmesi -->
+        <p class="text-center mt-3" style="color:var(--text-muted);font-size:13px;">
+            Hesabın yok mu?
+            <a asp-action="Register"
+               style="color:var(--accent-light);text-decoration:none;">
+                Kayıt ol
+            </a>
+        </p>
+
+    </div>
+</div>

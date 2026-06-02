@@ -1,0 +1,105 @@
+@model DegisenDusunceler.Models.Memory
+@{
+    ViewData["Title"] = Model.Title;
+    Layout = "_Layout";
+    var currentUserId = Context.Session.GetString("UserId");
+}
+
+<div class="container py-4">
+    <div class="details-card mx-auto">
+
+        <!-- Geri butonu -->
+        <a asp-action="Index"
+           class="back-link mb-4 d-inline-block text-decoration-none">
+            ← Evrene dön
+        </a>
+
+        <!-- Yazar ve tarih -->
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <div class="user-avatar-lg">
+                @(Model.User?.FullName?.Substring(0,1).ToUpper() ?? "?")
+            </div>
+            <div>
+                <p style="color:var(--text-main);font-size:14px;font-weight:500;margin:0">
+                    @Model.User?.FullName
+                </p>
+                <p style="color:var(--text-muted);font-size:12px;margin:0">
+                    ♄ @Model.CreatedAt.ToString("dd MMMM yyyy, HH:mm")
+                    &nbsp;·&nbsp; 👁 @Model.ViewCount kez okundu
+                </p>
+            </div>
+            @if (Model.IsPublic)
+            {
+                <span class="badge-open ms-auto">Açık</span>
+            }
+            else
+            {
+                <span class="badge-private ms-auto">Gizli</span>
+            }
+        </div>
+
+        <!-- Başlık -->
+        <h1 class="details-title mb-4">@Model.Title</h1>
+
+        <!-- İçerik -->
+        <div class="details-content mb-5">
+            @Html.Raw(Model.Content.Replace("\n", "<br/>"))
+        </div>
+
+        <!-- Emoji tepkiler -->
+        <div class="details-reactions mb-4">
+            <p class="section-label mb-2">Tepkini bırak</p>
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (var emoji in new[] {
+                    ("heart","❤️"), ("laugh","😂"), ("cry","😢"),
+                    ("wow","😲"), ("fire","🔥"), ("clap","👏"), ("bulb","💡")
+                })
+                {
+                    var count = Model.Reactions.Count(r => r.EmojiType == emoji.Item1);
+                    <button class="emoji-btn emoji-btn-lg"
+                            onclick="react(@Model.Id, '@emoji.Item1', this)">
+                        @emoji.Item2
+                        <span class="emoji-count">@count</span>
+                    </button>
+                }
+            </div>
+        </div>
+
+        <!-- Sahibiyse düzenle/sil -->
+        @if (currentUserId == Model.UserId.ToString())
+        {
+            <div class="d-flex gap-2 pt-3"
+                 style="border-top:1px solid var(--border)">
+                <a asp-action="Create" asp-route-id="@Model.Id"
+                   class="btn-saturn text-decoration-none">
+                    Düzenle
+                </a>
+                <form method="post" asp-action="Delete"
+                      onsubmit="return confirm('Bu anıyı silmek istediğine emin misin?')">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="table-btn-delete">Sil</button>
+                </form>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function react(memoryId, emojiType, btn) {
+    fetch('/Memory/React', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ memoryId: memoryId, emojiType: emojiType })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            btn.querySelector('.emoji-count').textContent = data.count;
+            btn.classList.toggle('active');
+        }
+    });
+}
+</script>
+}

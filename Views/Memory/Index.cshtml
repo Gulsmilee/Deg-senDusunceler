@@ -1,0 +1,179 @@
+@model List<DegisenDusunceler.Models.Memory>
+@{
+    ViewData["Title"] = "Evren";
+    Layout = "_Layout";
+    var currentUserId = Context.Session.GetString("UserId");
+    var userName = Context.Session.GetString("UserFullName") ?? "";
+}
+
+<div class="container py-4">
+
+    <!-- Hero alanı — yıldız canvas ve Satürn -->
+    <div class="index-hero position-relative mb-5 text-center rounded-4 overflow-hidden p-5">
+        <canvas id="starCanvas" class="position-absolute top-0 start-0 w-100 h-100"></canvas>
+
+        <!-- Satürn sağda arka planda -->
+        <div class="position-absolute top-50 end-0 translate-middle-y pe-4" style="opacity:0.18;z-index:1">
+            <svg width="200" height="200" viewBox="0 0 180 180" fill="none">
+                <ellipse cx="90" cy="90" rx="42" ry="42" fill="#2d1a5e"/>
+                <ellipse cx="90" cy="90" rx="32" ry="32" fill="#5b339e"/>
+                <ellipse cx="90" cy="90" rx="78" ry="22" stroke="#a78bfa" stroke-width="2.2" fill="none"/>
+                <ellipse cx="90" cy="90" rx="66" ry="17" stroke="#c4b5fd" stroke-width="1.3" fill="none" opacity="0.7"/>
+            </svg>
+        </div>
+
+        <div class="position-relative" style="z-index:2">
+            <div class="hero-badge mb-3" id="greetingBadge">🌙 İyi Geceler</div>
+            <h1 class="hero-title">Evren seni dinliyor,<br>
+                <span style="color:var(--accent)">anını bırak</span>
+            </h1>
+            <p class="hero-sub mt-2">Satürn'ün halkalarında saklı gibi — bazı anılar sadece senin.</p>
+            <a asp-action="Create" class="btn-saturn mt-3 d-inline-block text-decoration-none">
+                ✦ Yeni anı yaz
+            </a>
+        </div>
+    </div>
+
+    <!-- Arama çubuğu -->
+    <div class="mb-4">
+        <input type="text"
+               id="searchInput"
+               class="form-control"
+               placeholder="🔍  Anılarda ara..."
+               style="max-width:400px" />
+    </div>
+
+    <p class="section-label">Evren'den son anılar</p>
+
+    <!-- Anı kartları grid -->
+    <div class="row g-3" id="memoryGrid">
+        @if (!Model.Any())
+        {
+            <p style="color:var(--text-muted)">Henüz paylaşılan anı yok. İlk anıyı sen yaz!</p>
+        }
+
+        @foreach (var memory in Model)
+        {
+            <!-- Her kart data-title ile arama için etiketlendi -->
+            <div class="col-md-4 memory-item" data-title="@memory.Title.ToLower() @memory.Content.ToLower()">
+                <div class="memory-card h-100">
+
+                    <!-- Kart üstü: avatar + rozet -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="user-avatar">
+                                @(memory.User?.FullName?.Substring(0,1).ToUpper() ?? "?")
+                            </div>
+                            <span style="color:var(--text-muted);font-size:12px">
+                                @memory.User?.FullName
+                            </span>
+                        </div>
+                        <span class="badge-open">Açık</span>
+                    </div>
+
+                    <!-- Başlık ve içerik -->
+                    <h6 class="card-memory-title">@memory.Title</h6>
+                    <p class="card-memory-body">
+                        @(memory.Content.Length > 120
+                            ? memory.Content.Substring(0, 120) + "..."
+                            : memory.Content)
+                    </p>
+
+                    <!-- Tarih + görüntülenme -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="card-date">♄ @memory.CreatedAt.ToString("dd MMM, HH:mm")</span>
+                        <span class="card-date">👁 @memory.ViewCount</span>
+                    </div>
+
+                    <!-- Emoji tepki butonları -->
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        @foreach (var emoji in new[] {
+                            ("heart","❤️"), ("laugh","😂"), ("cry","😢"),
+                            ("wow","😲"), ("fire","🔥"), ("clap","👏"), ("bulb","💡")
+                        })
+                        {
+                            var count = memory.Reactions.Count(r => r.EmojiType == emoji.Item1);
+                            <button class="emoji-btn"
+                                    onclick="react(@memory.Id, '@emoji.Item1', this)">
+                                @emoji.Item2
+                                <span class="emoji-count">@count</span>
+                            </button>
+                        }
+                    </div>
+
+                    <!-- Detay linki -->
+                    <a asp-action="Details" asp-route-id="@memory.Id"
+                       class="btn-saturn-outline text-decoration-none d-block text-center"
+                       style="font-size:12px;padding:6px 0">
+                        Devamını oku →
+                    </a>
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // ── Saate göre selamlama ──
+    const h = new Date().getHours();
+    const badge = document.getElementById('greetingBadge');
+   const name = '@Html.Raw(userName)'.split(' ')[0];
+    if      (h >= 6  && h < 12) badge.textContent = `☀️ Günaydın, ${name}`;
+    else if (h >= 12 && h < 18) badge.textContent = `🌤 İyi Öğleler, ${name}`;
+    else if (h >= 18 && h < 22) badge.textContent = `🌆 İyi Akşamlar, ${name}`;
+    else                         badge.textContent = `🌙 İyi Geceler, ${name}`;
+
+    // ── Yıldız canvas animasyonu ──
+    const canvas = document.getElementById('starCanvas');
+    const hero   = canvas.parentElement;
+    canvas.width  = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+    const ctx = canvas.getContext('2d');
+    const stars = Array.from({length: 80}, () => ({
+        x:  Math.random() * canvas.width,
+        y:  Math.random() * canvas.height,
+        r:  Math.random() * 1.3 + 0.2,
+        o:  Math.random() * 0.4 + 0.1,
+        tw: Math.random() * 3 + 1.5
+    }));
+    let t = 0;
+    (function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(s => {
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,255,255,${s.o * (0.6 + 0.4 * Math.sin(t / s.tw))})`;
+            ctx.fill();
+        });
+        t += 0.04;
+        requestAnimationFrame(draw);
+    })();
+
+    // ── Canlı arama filtresi ──
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        const query = this.value.toLowerCase();
+        document.querySelectorAll('.memory-item').forEach(item => {
+            const text = item.getAttribute('data-title');
+            item.style.display = text.includes(query) ? '' : 'none';
+        });
+    });
+
+    // ── Emoji tepki fonksiyonu ──
+    function react(memoryId, emojiType, btn) {
+        fetch('/Memory/React', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ memoryId, emojiType })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                btn.querySelector('.emoji-count').textContent = data.count;
+                btn.classList.toggle('active');
+            }
+        });
+    }
+</script>
+}

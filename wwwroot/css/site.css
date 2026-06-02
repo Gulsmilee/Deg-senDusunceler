@@ -1,0 +1,555 @@
+/* ═══════════════════════════════════
+   Değişen Düşünceler — site.css
+   Tema: Gece gökyüzü + Satürn
+═══════════════════════════════════ */
+
+:root {
+  --bg-main: #0c1220;
+  --bg-card: #111827;
+  --accent: #60a5fa;
+  --accent-light: #93c5fd;
+  --saturn: #a78bfa;
+  --saturn-light: #c4b5fd;
+  --success: #34d399;
+  --text-main: #f1f5f9;
+  --text-muted: #64748b;
+  --text-dim: #334155;
+  --border: rgba(96, 165, 250, 0.12);
+}
+
+/* ── Genel ── */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Navbar ── */
+.navbar {
+  background-color: rgba(12, 18, 32, 0.95);
+  border-bottom: 1px solid rgba(96, 165, 250, 0.12);
+  backdrop-filter: blur(8px);
+  padding: 0 0;
+  height: 56px;
+}
+
+.navbar-brand {
+  color: var(--accent-light) !important;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.navbar-brand:hover {
+  color: var(--accent) !important;
+}
+
+.nav-link {
+  color: var(--text-muted) !important;
+  font-size: 13px;
+  transition: color 0.2s;
+  padding: 0.4rem 0.75rem !important;
+}
+
+.nav-link:hover {
+  color: var(--accent-light) !important;
+}
+
+.nav-btn-logout {
+  background: transparent;
+  border: 1px solid rgba(147, 197, 253, 0.25);
+  color: var(--accent-light);
+  font-size: 12px;
+  padding: 5px 13px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.2s;
+  margin-left: 8px;
+}
+
+.nav-btn-logout:hover {
+  background: rgba(147, 197, 253, 0.07);
+  color: var(--accent-light);
+}
+
+.nav-btn-register {
+  background: rgba(96, 165, 250, 0.14);
+  border: 1px solid rgba(96, 165, 250, 0.32);
+  color: var(--accent-light);
+  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.2s;
+  margin-left: 8px;
+}
+
+.nav-btn-register:hover {
+  background: rgba(96, 165, 250, 0.24);
+  color: var(--accent-light);
+}
+
+.navbar-toggler {
+  border-color: rgba(96, 165, 250, 0.2) !important;
+}
+
+/* ── Kartlar ── */
+.memory-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.2rem;
+  transition:
+    border-color 0.2s,
+    transform 0.15s;
+  height: 100%;
+}
+
+.memory-card:hover {
+  border-color: rgba(96, 165, 250, 0.28);
+  transform: translateY(-2px);
+}
+
+/* ── Rozetler ── */
+.badge-open {
+  background: rgba(52, 211, 153, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(52, 211, 153, 0.18);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 10px;
+}
+
+.badge-private {
+  background: rgba(51, 65, 85, 0.4);
+  color: var(--text-dim);
+  border: 1px solid rgba(51, 65, 85, 0.25);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 10px;
+}
+
+/* ── Form elemanları ── */
+.form-control,
+.form-select {
+  background-color: var(--bg-main) !important;
+  border: 1px solid rgba(96, 165, 250, 0.15) !important;
+  color: var(--text-main) !important;
+  border-radius: 8px !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: rgba(96, 165, 250, 0.4) !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.08) !important;
+  background-color: var(--bg-main) !important;
+}
+
+.form-control::placeholder {
+  color: var(--text-dim) !important;
+}
+
+.form-label {
+  color: var(--text-dim);
+  font-size: 12px;
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+
+/* ── Butonlar ── */
+.btn-saturn {
+  background: rgba(96, 165, 250, 0.15);
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  color: var(--accent-light);
+  border-radius: 22px;
+  padding: 9px 22px;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.btn-saturn:hover {
+  background: rgba(96, 165, 250, 0.26);
+  color: var(--accent-light);
+}
+
+.btn-saturn-outline {
+  background: transparent;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+  color: var(--text-muted);
+  border-radius: 22px;
+  padding: 9px 18px;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.btn-saturn-outline:hover {
+  border-color: rgba(100, 116, 139, 0.35);
+  color: var(--text-muted);
+}
+
+/* ── Şifre güç barı ── */
+.strength-bar {
+  height: 3px;
+  border-radius: 2px;
+  background: #1e293b;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.strength-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition:
+    width 0.3s,
+    background 0.3s;
+}
+
+.strength-label {
+  font-size: 10px;
+  margin-top: 3px;
+}
+
+/* ── Emoji butonları ── */
+.emoji-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  padding: 3px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--text-dim);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s;
+}
+
+.emoji-btn:hover {
+  background: rgba(96, 165, 250, 0.1);
+  border-color: rgba(96, 165, 250, 0.22);
+  color: var(--accent);
+}
+
+.emoji-btn.active {
+  background: rgba(96, 165, 250, 0.12);
+  border-color: rgba(96, 165, 250, 0.28);
+  color: var(--accent);
+}
+
+/* ── Section başlıkları ── */
+.section-label {
+  color: var(--text-dim);
+  font-size: 11px;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+/* ── Auth sayfaları ── */
+.auth-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 420px;
+  margin: 80px auto;
+}
+
+.auth-title {
+  color: var(--text-main);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.auth-sub {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-bottom: 1.75rem;
+}
+
+/* ── Footer ── */
+.site-footer {
+  color: var(--text-dim);
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  padding: 1.5rem 0 1rem;
+  margin-top: 3rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* ── Alert / hata mesajları ── */
+.alert-saturn {
+  background: rgba(96, 165, 250, 0.08);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  color: var(--accent-light);
+  border-radius: 10px;
+  font-size: 13px;
+  padding: 10px 14px;
+}
+
+.alert-danger-saturn {
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  color: #fca5a5;
+  border-radius: 10px;
+  font-size: 13px;
+  padding: 10px 14px;
+}
+
+/* ── Index hero ── */
+.index-hero {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  min-height: 240px;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(96, 165, 250, 0.08);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  color: var(--accent);
+  font-size: 11px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.4px;
+}
+
+.hero-title {
+  color: var(--text-main);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.hero-sub {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* ── Kullanıcı avatarları ── */
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(167, 139, 250, 0.15);
+  color: var(--saturn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.user-avatar-lg {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(167, 139, 250, 0.15);
+  color: var(--saturn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.user-avatar-xl {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(167, 139, 250, 0.15);
+  color: var(--saturn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+/* ── Kart içi yazı ── */
+.card-memory-title {
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+
+.card-memory-body {
+  color: var(--text-dim);
+  font-size: 12px;
+  line-height: 1.65;
+  margin-bottom: 0.75rem;
+}
+
+.card-date {
+  color: var(--text-dim);
+  font-size: 11px;
+}
+
+/* ── Tablo ── */
+.capsule-table {
+  color: var(--text-main);
+  font-size: 13px;
+}
+
+.capsule-table thead th {
+  color: var(--text-dim);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+  background-color: transparent !important;
+}
+
+/* Bootstrap'in varsayılan tablo renklerini sıfırla */
+.capsule-table,
+.capsule-table > :not(caption) > * > * {
+  background-color: transparent !important;
+  color: var(--text-main) !important;
+  border-color: rgba(96, 165, 250, 0.06) !important;
+}
+
+.capsule-table tbody td {
+  vertical-align: middle;
+  padding: 12px 8px;
+}
+
+/* Hover — Bootstrap'i !important ile ez */
+.capsule-table tbody tr:hover > * {
+  background-color: rgba(96, 165, 250, 0.05) !important;
+  color: var(--text-main) !important;
+}
+
+.memory-link {
+  color: var(--text-main);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.memory-link:hover {
+  color: var(--accent-light);
+}
+
+.table-btn-edit {
+  background: rgba(96, 165, 250, 0.1);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  color: var(--accent-light);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.table-btn-edit:hover {
+  background: rgba(96, 165, 250, 0.18);
+  color: var(--accent-light);
+}
+
+.table-btn-delete {
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  color: #fca5a5;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.table-btn-delete:hover {
+  background: rgba(248, 113, 113, 0.15);
+}
+
+/* ── Create sayfası ── */
+.create-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 680px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.radio-label input {
+  accent-color: var(--accent);
+}
+
+/* ── Details sayfası ── */
+.details-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 720px;
+}
+
+.details-title {
+  color: var(--text-main);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.details-content {
+  color: #94a3b8;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.back-link {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.back-link:hover {
+  color: var(--accent-light);
+}
+
+.emoji-btn-lg {
+  padding: 5px 12px;
+  font-size: 14px;
+}
+
+/* ── Profil sayfası ── */
+.profile-header {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.stat-number {
+  color: var(--saturn);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}

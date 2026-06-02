@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "Profilim";
+    Layout = "_Layout";
+    var user    = ViewBag.User as DegisenDusunceler.Models.User;
+    var total   = (int)ViewBag.TotalMemories;
+    var pub     = (int)ViewBag.PublicCount;
+    var priv    = (int)ViewBag.PrivateCount;
+    var views   = (int)ViewBag.TotalViews;
+}
+
+<div class="container py-4">
+
+    <!-- Profil başlık kartı -->
+    <div class="profile-header mb-4">
+        <div class="d-flex align-items-center gap-4">
+            <div class="user-avatar-xl">
+                @(user?.FullName?.Substring(0,1).ToUpper() ?? "?")
+            </div>
+            <div>
+                <h2 style="color:var(--text-main);font-size:22px;font-weight:600;margin:0">
+                    @user?.FullName
+                </h2>
+                <p style="color:var(--text-muted);font-size:13px;margin:4px 0 0">
+                    @user?.Email
+                </p>
+                <p style="color:var(--text-dim);font-size:11px;margin:4px 0 0">
+                    ♄ @user?.CreatedAt.ToString("dd MMMM yyyy") tarihinde katıldı
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- İstatistik kartları -->
+    <p class="section-label">İstatistikler</p>
+    <div class="row g-3 mb-4">
+
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <div class="stat-number">@total</div>
+                <div class="stat-label">Toplam Anı</div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <div class="stat-number" style="color:var(--success)">@pub</div>
+                <div class="stat-label">Herkese Açık</div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <div class="stat-number" style="color:var(--text-muted)">@priv</div>
+                <div class="stat-label">Gizli</div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <div class="stat-number" style="color:var(--accent)">@views</div>
+                <div class="stat-label">Toplam Okunma</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Hızlı erişim butonları -->
+    <p class="section-label">Hızlı Erişim</p>
+    <div class="d-flex gap-3 flex-wrap">
+        <a asp-controller="Memory" asp-action="MyCapsule"
+           class="btn-saturn text-decoration-none">
+            🗂 Kapsülüme git
+        </a>
+        <a asp-controller="Memory" asp-action="Create"
+           class="btn-saturn-outline text-decoration-none">
+            ✦ Yeni anı yaz
+        </a>
+    </div>
+
+</div>

@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — Değişen Düşünceler</title>
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Projemizin kendi CSS dosyası -->
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+    <!-- Navbar her sayfada ortak görünür -->
+    @await Html.PartialAsync("_Navbar")
+
+    <!-- Her sayfanın içeriği burada render olur -->
+    <!-- navbar fixed-top olduğu için üstten boşluk bırakıyoruz -->
+    <main style="padding-top: 72px;">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container text-center">
+            <svg width="13" height="13" viewBox="0 0 26 26" fill="none" style="margin-right:5px">
+                <ellipse cx="13" cy="13" rx="6" ry="6" fill="#a78bfa" opacity="0.85"/>
+                <ellipse cx="13" cy="13" rx="11.5" ry="4" stroke="#c4b5fd" stroke-width="1.2" fill="none" opacity="0.5"/>
+            </svg>
+            Değişen Düşünceler · Anıların evrende kaybolmaz
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Projemizin JS dosyaları -->
+    <script src="~/js/site.js"></script>
+
+    <!-- Her sayfa kendi JS bloğunu buraya ekleyebilir -->
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
